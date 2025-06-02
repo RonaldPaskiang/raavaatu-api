@@ -1,0 +1,19 @@
+
+{
+  "schema_version": "v1",
+  "name_for_human": "Raavaatu Cloud Memory",
+  "name_for_model": "raavaatu_cloud_memory",
+  "description_for_human": "Ask lore questions about the Avatar x MHA universe. Automatically fetches from Raavaatu's cloud memory.",
+  "description_for_model": "Use this to answer Avatar x MHA questions when unsure. Sends the user's question to Raavaatu memory.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://raavaatu-api-production.up.railway.app/schema.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://raavaatu-api-production.up.railway.app/logo.png",
+  "contact_email": "support@raavaatu.fake",
+  "legal_info_url": "https://raavaatu-api-production.up.railway.app/legal"
+}

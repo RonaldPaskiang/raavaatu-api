@@ -1,2 +1,15 @@
 .env
+config.py
+chatgpt_data_search.py
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+.DS_Store
+.vscode/
+.idea/
+*.log
+Git/
+usr/

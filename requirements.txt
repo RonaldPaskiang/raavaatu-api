@@ -1,4 +1,0 @@
-flask
-openai
-notion-client
-python-dotenv

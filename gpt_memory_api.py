@@ -1,8 +1,10 @@
 from flask import Flask, jsonify, request
 from flask import Flask, send_from_directory
 from notion_client import Client as NotionClient
-from config import NOTION_TOKEN, NOTION_DATABASE_ID
 import os
+NOTION_TOKEN = os.environ["NOTION_TOKEN"]
+NOTION_DATABASE_ID = os.environ["NOTION_DATABASE_ID"]
+
 
 app = Flask(__name__)
 

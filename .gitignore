@@ -1,3 +1,4 @@
 .env
 config.py
+chatgpt_data_search.py
 __pycache__/

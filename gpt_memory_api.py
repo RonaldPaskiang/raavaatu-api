@@ -1,5 +1,8 @@
 from flask import Flask, jsonify, request
+<<<<<<< HEAD
 from flask import Flask, send_from_directory
+=======
+>>>>>>> e0bcada733b09f33ac6d307f941882c4049e55a9
 from notion_client import Client as NotionClient
 from config import NOTION_TOKEN, NOTION_DATABASE_ID
 import os
@@ -38,6 +41,7 @@ def get_memory():
     memory_entries = fetch_memory_entries()
     return jsonify({"memory": memory_entries})
 
+<<<<<<< HEAD
 def append_text_to_notion_page(page_id, text):
     notion.blocks.children.append(
         block_id=page_id,
@@ -209,3 +213,8 @@ if __name__ == "__main__":
 @app.route('/.well-known/ai-plugin.json')
 def serve_manifest():
     return send_from_directory(os.path.join(app.root_path, '.well-known'), 'ai-plugin.json')
+=======
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5002))
+    app.run(host="0.0.0.0", port=port)
+>>>>>>> e0bcada733b09f33ac6d307f941882c4049e55a9

@@ -1,4 +1,7 @@
 .env
+<<<<<<< HEAD
 config.py
 chatgpt_data_search.py
+=======
+>>>>>>> e0bcada733b09f33ac6d307f941882c4049e55a9
 __pycache__/

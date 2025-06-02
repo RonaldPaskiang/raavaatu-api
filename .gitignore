@@ -1,2 +1,14 @@
 Git/ 
 usr/ 
+# Ignore secrets, cache, binaries, and logs
+.env
+config.py
+__pycache__/
+*.pyc
+*.pyo
+*.exe
+*.bat
+*.log
+*.db
+*.sqlite3
+

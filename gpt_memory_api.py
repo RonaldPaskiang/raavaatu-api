@@ -3,7 +3,9 @@ from flask import Flask, send_from_directory
 from notion_client import Client as NotionClient
 import os
 NOTION_TOKEN = os.environ["NOTION_TOKEN"]
-NOTION_DATABASE_ID = os.environ["NOTION_DATABASE_ID"]
+NOTION_DATABASE_ID = os.environ.get("NOTION_DATABASE_ID", "")
+if not NOTION_DATABASE_ID:
+    raise Exception("NOTION_DATABASE_ID env variable not set!")
 
 
 app = Flask(__name__)

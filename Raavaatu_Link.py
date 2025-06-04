@@ -1,7 +1,13 @@
 from openai import OpenAI
 from notion_client import Client as NotionClient
 from datetime import datetime
-from config import OPENAI_API_KEY, ASSISTANT_ID, NOTION_TOKEN, NOTION_DATABASE_ID
+import os
+import time
+
+OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
+ASSISTANT_ID = os.environ["ASSISTANT_ID"]
+NOTION_TOKEN = os.environ["NOTION_TOKEN"]
+NOTION_DATABASE_ID = os.environ["NOTION_DATABASE_ID"]
 
 # ✅ Initialize OpenAI + Notion clients
 client = OpenAI(api_key=OPENAI_API_KEY)
@@ -32,6 +38,7 @@ def ask_raavaatu(prompt, category=None, tags=None):
             run_status = client.beta.threads.runs.retrieve(thread_id=thread.id, run_id=run.id)
             if run_status.status == "completed":
                 break
+            time.sleep(1)
 
         messages = client.beta.threads.messages.list(thread_id=thread.id)
         reply = messages.data[0].content[0].text.value.strip()

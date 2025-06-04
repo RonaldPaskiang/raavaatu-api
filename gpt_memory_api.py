@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from flask import Flask, send_from_directory
 from notion_client import Client as NotionClient
+from Raavaatu_Link import ask_raavaatu
 import os
 NOTION_TOKEN = os.environ["NOTION_TOKEN"]
 NOTION_DATABASE_ID = os.environ.get("NOTION_DATABASE_ID", "")
@@ -17,22 +18,31 @@ notion = NotionClient(auth=NOTION_TOKEN)
 def fetch_memory_entries():
     try:
         entries = []
-        response = notion.databases.query(database_id=NOTION_DATABASE_ID)
-        for result in response.get("results", []):
-            props = result.get("properties", {})
-            title = props.get("Name", {}).get("title", [])
-            summary = props.get("Response", {}).get("rich_text", [])
-            tags = props.get("Tags", {}).get("multi_select", [])
+        cursor = None
+        while True:
+            response = notion.databases.query(
+                database_id=NOTION_DATABASE_ID, start_cursor=cursor
+            )
+            for result in response.get("results", []):
+                props = result.get("properties", {})
+                title = props.get("Name", {}).get("title", [])
+                summary = props.get("Response", {}).get("rich_text", [])
+                tags = props.get("Tags", {}).get("multi_select", [])
 
-            title_text = title[0]["text"]["content"] if title else "Untitled"
-            summary_text = summary[0]["text"]["content"] if summary else "No summary available."
-            tag_list = [tag["name"] for tag in tags]
+                title_text = title[0]["text"]["content"] if title else "Untitled"
+                summary_text = summary[0]["text"]["content"] if summary else "No summary available."
+                tag_list = [tag["name"] for tag in tags]
 
-            entries.append({
-                "title": title_text,
-                "summary": summary_text,
-                "tags": tag_list
-            })
+                entries.append({
+                    "title": title_text,
+                    "summary": summary_text,
+                    "tags": tag_list,
+                })
+
+            cursor = response.get("next_cursor")
+            if not cursor:
+                break
+
         return entries
     except Exception as e:
         return [{"title": "Error", "summary": str(e), "tags": []}]
@@ -41,6 +51,17 @@ def fetch_memory_entries():
 def get_memory():
     memory_entries = fetch_memory_entries()
     return jsonify({"memory": memory_entries})
+
+
+@app.route("/ask", methods=["POST"])
+def ask_route():
+    data = request.get_json() or {}
+    prompt = data.get("prompt")
+    if not prompt:
+        return jsonify({"error": "Missing prompt"}), 400
+
+    reply = ask_raavaatu(prompt)
+    return jsonify({"reply": reply})
 
 def append_text_to_notion_page(page_id, text):
     notion.blocks.children.append(
@@ -213,3 +234,8 @@ if __name__ == "__main__":
 @app.route('/.well-known/ai-plugin.json')
 def serve_manifest():
     return send_from_directory(os.path.join(app.root_path, '.well-known'), 'ai-plugin.json')
+
+# Serve OpenAPI schema
+@app.route('/schema.json')
+def serve_schema():
+    return send_from_directory(app.root_path, 'schema.json')

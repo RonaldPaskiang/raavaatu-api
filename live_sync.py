@@ -4,7 +4,9 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import os
 
-WATCH_DIR = os.path.abspath("D:\\notion_gpt_sync")
+WATCH_DIR = os.environ.get(
+    "WATCH_DIR", os.path.dirname(os.path.abspath(__file__))
+)
 TARGET_SCRIPT = os.path.join(WATCH_DIR, "sync_to_openai.py")
 
 class ChangeHandler(FileSystemEventHandler):

@@ -1,6 +1,9 @@
 from notion_client import Client
-from config import NOTION_TOKEN, NOTION_PAGE_ID
+import os
 import time
+
+NOTION_TOKEN = os.environ["NOTION_TOKEN"]
+NOTION_PAGE_ID = os.environ["NOTION_PAGE_ID"]
 
 notion = Client(auth=NOTION_TOKEN)
 

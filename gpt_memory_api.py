@@ -1,5 +1,4 @@
-from flask import Flask, jsonify, request
-from flask import Flask, send_from_directory
+from flask import Flask, jsonify, request, send_from_directory
 from notion_client import Client as NotionClient
 from Raavaatu_Link import ask_raavaatu
 import os
@@ -226,10 +225,6 @@ def list_blocks():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5002))
-    app.run(host="0.0.0.0", port=port)
-
 # Serve plugin manifest
 @app.route('/.well-known/ai-plugin.json')
 def serve_manifest():
@@ -239,3 +234,10 @@ def serve_manifest():
 @app.route('/schema.json')
 def serve_schema():
     return send_from_directory(app.root_path, 'schema.json')
+<<<<<<< HEAD
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5002))
+    app.run(host="0.0.0.0", port=port)
+=======
+>>>>>>> main

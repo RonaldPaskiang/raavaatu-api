@@ -53,6 +53,11 @@ def get_page_content(page_id=NOTION_PAGE_ID):
         print("❌ Error reading Notion page content:", e)
         return None
 
+from config import NOTION_PAGE_ID, NOTION_TOKEN
+from notion_client import Client
+
+notion = Client(auth=NOTION_TOKEN)
+
 def get_last_edited_time(page_id=NOTION_PAGE_ID):
     try:
         page = notion.pages.retrieve(page_id=page_id)

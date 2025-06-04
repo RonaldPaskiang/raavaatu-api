@@ -1,6 +1,9 @@
 # notion_utils.py
 from notion_client import Client
-from config import NOTION_PAGE_ID, NOTION_TOKEN
+import os
+
+NOTION_PAGE_ID = os.environ["NOTION_PAGE_ID"]
+NOTION_TOKEN = os.environ["NOTION_TOKEN"]
 
 notion = Client(auth=NOTION_TOKEN)
 
@@ -52,11 +55,6 @@ def get_page_content(page_id=NOTION_PAGE_ID):
     except Exception as e:
         print("❌ Error reading Notion page content:", e)
         return None
-
-from config import NOTION_PAGE_ID, NOTION_TOKEN
-from notion_client import Client
-
-notion = Client(auth=NOTION_TOKEN)
 
 def get_last_edited_time(page_id=NOTION_PAGE_ID):
     try:

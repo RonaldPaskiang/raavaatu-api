@@ -26,7 +26,10 @@ def main():
     if current_edit != last_edit:
         print("🌀 Change detected. Syncing to Raavaatu...")
         content = get_page_content()
-        
+        if content is None:
+            print("❌ Unable to read Notion page content. Skipping sync.")
+            return
+
         # Auto-detect category and tags
         category, tags = detect_category_and_tags(content)
 

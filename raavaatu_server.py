@@ -3,6 +3,7 @@ import openai
 from notion_client import Client as NotionClient
 from datetime import datetime
 import os
+import time
 
 # Load credentials from env vars
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -34,6 +35,7 @@ def ask():
             run_status = openai.beta.threads.runs.retrieve(thread_id=thread.id, run_id=run.id)
             if run_status.status == "completed":
                 break
+            time.sleep(1)
 
         messages = openai.beta.threads.messages.list(thread_id=thread.id)
         reply = messages.data[0].content[0].text.value.strip()
